@@ -1,3 +1,0 @@
-- Terminal
-- Git
-- GitHub
