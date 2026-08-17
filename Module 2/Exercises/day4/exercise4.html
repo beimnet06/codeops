@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercise 4 - Grid Areas Layout</title>
+    <style>
+        /* ============================================
+           Reset & Body
+           ============================================ */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            min-height: 100vh;
+            background-color: #f8fafc;
+        }
+
+        /* ============================================
+           Grid Layout
+           ============================================ */
+        .app {
+            display: grid;
+            grid-template-columns: 260px 1fr;
+            grid-template-areas:
+                "header header"
+                "sidebar main"
+                "footer footer";
+            min-height: 100vh;
+            gap: 0;
+        }
+
+        /* ============================================
+           Grid Areas
+           ============================================ */
+        .app > header {
+            grid-area: header;
+            background-color: #1a3a5c;
+            color: white;
+            padding: 20px 32px;
+            display: flex;
+            align-items: center;
+        }
+
+        .app > header h1 {
+            font-size: 24px;
+        }
+
+        .sidebar {
+            grid-area: sidebar;
+            background-color: #ffffff;
+            padding: 24px 16px;
+            border-right: 1px solid #e2e8f0;
+        }
+
+        .sidebar ul {
+            list-style: none;
+        }
+
+        .sidebar li {
+            padding: 12px 16px;
+            margin-bottom: 4px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        .sidebar li:hover {
+            background-color: #f1f5f9;
+        }
+
+        .sidebar li.active {
+            background-color: #e2e8f0;
+            font-weight: bold;
+            color: #1a3a5c;
+        }
+
+        .main {
+            grid-area: main;
+            padding: 32px;
+            background-color: #ffffff;
+        }
+
+        .main h2 {
+            color: #1a3a5c;
+            margin-bottom: 16px;
+        }
+
+        .main p {
+            color: #475569;
+            line-height: 1.7;
+            margin-bottom: 16px;
+        }
+
+        .main .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 16px;
+            margin-top: 20px;
+        }
+
+        .main .card-grid .stat {
+            background-color: #f8fafc;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+            text-align: center;
+        }
+
+        .main .card-grid .stat h3 {
+            font-size: 28px;
+            color: #1a3a5c;
+        }
+
+        .main .card-grid .stat p {
+            font-size: 14px;
+            color: #64748b;
+            margin: 0;
+        }
+
+        .app > footer {
+            grid-area: footer;
+            background-color: #e2e8f0;
+            padding: 16px 32px;
+            text-align: center;
+            color: #475569;
+            font-size: 14px;
+        }
+
+        /* ============================================
+           Media Query: Collapse to Single Column
+           ============================================ */
+        @media (max-width: 700px) {
+            .app {
+                grid-template-columns: 1fr;
+                grid-template-areas:
+                    "header"
+                    "sidebar"
+                    "main"
+                    "footer";
+            }
+
+            .sidebar {
+                border-right: none;
+                border-bottom: 1px solid #e2e8f0;
+            }
+
+            .sidebar ul {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 4px;
+            }
+
+            .sidebar li {
+                padding: 10px 16px;
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="app">
+        <!-- HEADER -->
+        <header>
+            <h1>🏦 Addis Bank Dashboard</h1>
+        </header>
+
+        <!-- SIDEBAR -->
+        <nav class="sidebar">
+            <ul>
+                <li class="active">📊 Dashboard</li>
+                <li>💰 Accounts</li>
+                <li>📈 Transactions</li>
+                <li>👤 Profile</li>
+                <li>⚙️ Settings</li>
+            </ul>
+        </nav>
+
+        <!-- MAIN CONTENT -->
+        <main class="main">
+            <h2>Welcome back, Beimnet!</h2>
+            <p>Here's a summary of your accounts and recent activity.</p>
+
+            <div class="card-grid">
+                <div class="stat">
+                    <h3>$12,450</h3>
+                    <p>Total Balance</p>
+                </div>
+                <div class="stat">
+                    <h3>8</h3>
+                    <p>Active Accounts</p>
+                </div>
+                <div class="stat">
+                    <h3>23</h3>
+                    <p>Transactions This Month</p>
+                </div>
+                <div class="stat">
+                    <h3>4.5%</h3>
+                    <p>Interest Rate</p>
+                </div>
+            </div>
+
+            <p style="margin-top: 24px;">📊 Recent activity will appear here. Resize the window to see the layout collapse to a single column below 700px.</p>
+        </main>
+
+        <!-- FOOTER -->
+        <footer>
+            &copy; 2026 Addis Bank. All rights reserved.
+        </footer>
+    </div>
+</body>
+</html>

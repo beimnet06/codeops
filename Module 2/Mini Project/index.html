@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CBE Online Banking - Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="app">
+        <!-- ============================================
+        HEADER (Sticky)
+        ============================================ -->
+        <header>
+            <div class="header-left">
+                <span class="logo">🏦 CBE Online</span>
+            </div>
+            <div class="header-right">
+                <a href="#">Dashboard</a>
+                <a href="#">Accounts</a>
+                <a href="#">Transfers</a>
+                <button class="btn-logout">Logout</button>
+            </div>
+        </header>
+
+        <!-- ============================================
+        SIDEBAR (Sticky)
+        ============================================ -->
+        <nav class="sidebar">
+            <div class="section-title">Main Menu</div>
+            <ul>
+                <li class="active">📊 Dashboard</li>
+                <li>💰 My Accounts</li>
+                <li>📈 Transactions</li>
+                <li>💸 Transfers</li>
+                <li>📅 Scheduled Payments</li>
+            </ul>
+            <div class="section-title">Settings</div>
+            <ul>
+                <li>👤 Profile</li>
+                <li>🔐 Security</li>
+                <li>⚙️ Preferences</li>
+            </ul>
+        </nav>
+
+        <!-- ============================================
+        MAIN CONTENT
+        ============================================ -->
+        <main class="main">
+            <h1>Welcome back, Beimnet!</h1>
+            <p class="subtitle">Here's a summary of your accounts and recent activity.</p>
+
+            <!-- Stat Cards (Flexbox) -->
+            <div class="stat-row">
+                <div class="stat-card" style="position: relative;">
+                    <span class="badge-new">New</span>
+                    <div class="label">Total Balance</div>
+                    <div class="value">ETB 12,450</div>
+                    <div class="change">↑ 4.2% from last month</div>
+                </div>
+                <div class="stat-card">
+                    <div class="label">Active Accounts</div>
+                    <div class="value">8</div>
+                    <div class="change">3 savings, 5 current</div>
+                </div>
+                <div class="stat-card">
+                    <div class="label">Monthly Spending</div>
+                    <div class="value">ETB 3,200</div>
+                    <div class="change">↑ 2.1% from last month</div>
+                </div>
+                <div class="stat-card">
+                    <div class="label">Savings Goal</div>
+                    <div class="value">68%</div>
+                    <div class="change">ETB 8,500 of ETB 12,500</div>
+                </div>
+            </div>
+
+            <!-- Recent Transactions (Grid auto-fit) -->
+            <h2 style="margin-top: 24px;">📋 Recent Transactions</h2>
+            <div class="transaction-grid">
+                <div class="transaction-item">
+                    <div class="amount credit">+ETB 5,000</div>
+                    <div class="desc">Salary Deposit - March 2026</div>
+                    <div style="font-size: 12px; color: #94a3b8;">Today, 10:30 AM</div>
+                </div>
+                <div class="transaction-item">
+                    <div class="amount debit">-ETB 1,200</div>
+                    <div class="desc">Ethio Telecom - Monthly Bill</div>
+                    <div style="font-size: 12px; color: #94a3b8;">Yesterday, 2:15 PM</div>
+                </div>
+                <div class="transaction-item">
+                    <div class="amount debit">-ETB 350</div>
+                    <div class="desc">Habesha Market - Groceries</div>
+                    <div style="font-size: 12px; color: #94a3b8;">Yesterday, 11:45 AM</div>
+                </div>
+                <div class="transaction-item">
+                    <div class="amount credit">+ETB 2,000</div>
+                    <div class="desc">Transfer from Tigist</div>
+                    <div style="font-size: 12px; color: #94a3b8;">2 days ago, 6:20 PM</div>
+                </div>
+                <div class="transaction-item">
+                    <div class="amount debit">-ETB 750</div>
+                    <div class="desc">CBE Loan Payment</div>
+                    <div style="font-size: 12px; color: #94a3b8;">3 days ago, 9:00 AM</div>
+                </div>
+                <div class="transaction-item">
+                    <div class="amount credit">+ETB 300</div>
+                    <div class="desc">Cashback Reward</div>
+                    <div style="font-size: 12px; color: #94a3b8;">4 days ago, 8:30 AM</div>
+                </div>
+            </div>
+        </main>
+
+        <!-- ============================================
+        FOOTER
+        ============================================ -->
+        <footer>
+            &copy; 2026 Commercial Bank of Ethiopia. All rights reserved.
+        </footer>
+    </div>
+</body>
+</html>

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercise 3 - CSS Grid Photo Gallery</title>
+    <style>
+        /* ============================================
+           Gallery Grid
+           ============================================ */
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            padding: 20px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        /* ============================================
+           Gallery Items
+           ============================================ */
+        .gallery-item {
+            background-color: #e2e8f0;
+            border-radius: 10px;
+            overflow: hidden;
+            aspect-ratio: 1 / 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            font-family: Arial, sans-serif;
+            color: #475569;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .gallery-item:hover {
+            transform: scale(1.03);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Different background colors for visual variety */
+        .gallery-item:nth-child(1) { background-color: #fef3c7; }
+        .gallery-item:nth-child(2) { background-color: #dbeafe; }
+        .gallery-item:nth-child(3) { background-color: #d1fae5; }
+        .gallery-item:nth-child(4) { background-color: #fce4ec; }
+        .gallery-item:nth-child(5) { background-color: #f3e8ff; }
+        .gallery-item:nth-child(6) { background-color: #fce4ec; }
+        .gallery-item:nth-child(7) { background-color: #d1fae5; }
+        .gallery-item:nth-child(8) { background-color: #fef3c7; }
+        .gallery-item:nth-child(9) { background-color: #dbeafe; }
+        .gallery-item:nth-child(10) { background-color: #f3e8ff; }
+        .gallery-item:nth-child(11) { background-color: #fce4ec; }
+        .gallery-item:nth-child(12) { background-color: #d1fae5; }
+
+        .gallery-item .label {
+            font-size: 14px;
+            font-weight: bold;
+            background: rgba(255,255,255,0.8);
+            padding: 6px 12px;
+            border-radius: 4px;
+        }
+
+        /* ============================================
+           Header
+           ============================================ */
+        h1 {
+            text-align: center;
+            font-family: Arial, sans-serif;
+            color: #1a3a5c;
+            margin-top: 20px;
+        }
+
+        .info {
+            text-align: center;
+            font-family: Arial, sans-serif;
+            color: #64748b;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>🖼️ Photo Gallery</h1>
+    <p class="info">Resize the window to see columns change automatically!</p>
+
+    <div class="gallery">
+        <div class="gallery-item"><span class="label">📷 Photo 1</span></div>
+        <div class="gallery-item"><span class="label">📷 Photo 2</span></div>
+        <div class="gallery-item"><span class="label">📷 Photo 3</span></div>
+        <div class="gallery-item"><span class="label">📷 Photo 4</span></div>
+        <div class="gallery-item"><span class="label">📷 Photo 5</span></div>
+        <div class="gallery-item"><span class="label">📷 Photo 6</span></div>
+        <div class="gallery-item"><span class="label">📷 Photo 7</span></div>
+        <div class="gallery-item"><span class="label">📷 Photo 8</span></div>
+        <div class="gallery-item"><span class="label">📷 Photo 9</span></div>
+        <div class="gallery-item"><span class="label">📷 Photo 10</span></div>
+        <div class="gallery-item"><span class="label">📷 Photo 11</span></div>
+        <div class="gallery-item"><span class="label">📷 Photo 12</span></div>
+    </div>
+</body>
+</html>

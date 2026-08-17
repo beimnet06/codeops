@@ -152,3 +152,343 @@ body {
     outline: 3px solid var(--brand);
     outline-offset: 2px;
 }
+/* ============================================
+   CSS Variables
+   ============================================ */
+:root {
+    --primary: #1a3a5c;
+    --primary-light: #2c5a7c;
+    --secondary: #f1c40f;
+    --bg: #f8fafc;
+    --card-bg: #ffffff;
+    --text: #1e293b;
+    --text-light: #64748b;
+    --border: #e2e8f0;
+    --shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    --radius: 10px;
+    --space: 16px;
+}
+
+/* ============================================
+   Reset
+   ============================================ */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+}
+
+/* ============================================
+   Grid Skeleton (CBE Banking Layout)
+   ============================================ */
+.app {
+    display: grid;
+    grid-template-columns: 260px 1fr;
+    grid-template-areas:
+        "header header"
+        "sidebar main"
+        "footer footer";
+    min-height: 100vh;
+}
+
+/* Grid Areas */
+.app > header {
+    grid-area: header;
+    background-color: var(--primary);
+    color: white;
+    padding: 12px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.sidebar {
+    grid-area: sidebar;
+    background-color: var(--card-bg);
+    padding: 24px 16px;
+    border-right: 1px solid var(--border);
+    height: calc(100vh - 64px);
+    position: sticky;
+    top: 64px;
+    overflow-y: auto;
+}
+
+.main {
+    grid-area: main;
+    padding: 24px 32px;
+}
+
+.app > footer {
+    grid-area: footer;
+    background-color: var(--card-bg);
+    border-top: 1px solid var(--border);
+    padding: 16px 32px;
+    text-align: center;
+    color: var(--text-light);
+    font-size: 14px;
+}
+
+/* ============================================
+   Header - Flexbox
+   ============================================ */
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.header-left .logo {
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.header-right a {
+    color: white;
+    text-decoration: none;
+    font-size: 14px;
+    padding: 6px 12px;
+    border-radius: 6px;
+    transition: background-color 0.3s ease;
+}
+
+.header-right a:hover {
+    background-color: rgba(255, 255, 255, 0.15);
+}
+
+.header-right .btn-logout {
+    background-color: var(--secondary);
+    color: var(--primary);
+    border: none;
+    padding: 8px 20px;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.header-right .btn-logout:hover {
+    background-color: #f39c12;
+}
+
+/* ============================================
+   Sidebar - Flexbox
+   ============================================ */
+.sidebar ul {
+    list-style: none;
+}
+
+.sidebar li {
+    padding: 12px 16px;
+    margin-bottom: 4px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.sidebar li:hover {
+    background-color: #f1f5f9;
+}
+
+.sidebar li.active {
+    background-color: #e2e8f0;
+    font-weight: 600;
+    color: var(--primary);
+}
+
+.sidebar .section-title {
+    font-size: 12px;
+    text-transform: uppercase;
+    color: var(--text-light);
+    padding: 16px 16px 8px;
+    font-weight: 600;
+}
+
+/* ============================================
+   Main Content
+   ============================================ */
+.main h1 {
+    font-size: 28px;
+    margin-bottom: 4px;
+    color: var(--primary);
+}
+
+.main .subtitle {
+    color: var(--text-light);
+    margin-bottom: 24px;
+}
+
+/* Stat Cards - Flexbox */
+.stat-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-bottom: 32px;
+}
+
+.stat-card {
+    flex: 1;
+    min-width: 150px;
+    background-color: var(--card-bg);
+    padding: 20px;
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow);
+    position: relative;
+}
+
+.stat-card .label {
+    font-size: 14px;
+    color: var(--text-light);
+}
+
+.stat-card .value {
+    font-size: 28px;
+    font-weight: bold;
+    color: var(--primary);
+}
+
+.stat-card .change {
+    font-size: 13px;
+    color: #27ae60;
+    margin-top: 4px;
+}
+
+/* ============================================
+   Responsive Card Grid (auto-fit)
+   ============================================ */
+.transaction-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 16px;
+    margin-top: 16px;
+}
+
+.transaction-item {
+    background-color: var(--card-bg);
+    padding: 16px;
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.transaction-item .amount {
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.transaction-item .amount.credit {
+    color: #27ae60;
+}
+
+.transaction-item .amount.debit {
+    color: #e74c3c;
+}
+
+.transaction-item .desc {
+    color: var(--text-light);
+    font-size: 14px;
+}
+
+/* ============================================
+   Absolute Positioned Badge
+   ============================================ */
+.badge-new {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background-color: #e74c3c;
+    color: white;
+    font-size: 10px;
+    font-weight: bold;
+    padding: 4px 10px;
+    border-radius: 20px;
+    text-transform: uppercase;
+}
+
+/* ============================================
+   Media Query - Mobile
+   ============================================ */
+@media (max-width: 700px) {
+    .app {
+        grid-template-columns: 1fr;
+        grid-template-areas:
+            "header"
+            "sidebar"
+            "main"
+            "footer";
+    }
+
+    .sidebar {
+        position: relative;
+        top: 0;
+        height: auto;
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+    }
+
+    .sidebar ul {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 4px;
+    }
+
+    .sidebar li {
+        padding: 10px 14px;
+        font-size: 14px;
+    }
+
+    .sidebar .section-title {
+        display: none;
+    }
+
+    .header-right a {
+        display: none;
+    }
+
+    .stat-row {
+        flex-direction: column;
+    }
+
+    .stat-card {
+        min-width: unset;
+    }
+
+    .main {
+        padding: 16px;
+    }
+
+    .app > header {
+        padding: 12px 16px;
+        flex-wrap: wrap;
+    }
+
+    .header-left .logo {
+        font-size: 18px;
+    }
+
+    .header-right .btn-logout {
+        padding: 6px 14px;
+        font-size: 13px;
+    }
+}

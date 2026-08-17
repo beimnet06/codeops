@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercise 2 - Flexbox Cards</title>
+    <style>
+        /* ============================================
+           Card Container (Flexbox)
+           ============================================ */
+        .card-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            padding: 20px;
+            max-width: 900px;
+            margin: 0 auto;
+            background-color: #f8fafc;
+            border-radius: 8px;
+        }
+
+        /* ============================================
+           Individual Cards
+           ============================================ */
+        .card {
+            flex: 1;
+            min-width: 150px;
+            background-color: white;
+            padding: 24px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            border: 1px solid #e2e8f0;
+            text-align: center;
+            font-family: Arial, sans-serif;
+        }
+
+        .card h3 {
+            margin: 0 0 8px 0;
+            color: #1a3a5c;
+        }
+
+        .card p {
+            margin: 0;
+            color: #64748b;
+            font-size: 14px;
+        }
+
+        .card .emoji {
+            font-size: 36px;
+            display: block;
+            margin-bottom: 8px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Flexbox Cards</h1>
+    <p>Resize the window to see cards reflow</p>
+
+    <div class="card-container">
+        <div class="card">
+            <span class="emoji">☕</span>
+            <h3>Coffee</h3>
+            <p>Freshly roasted</p>
+        </div>
+        <div class="card">
+            <span class="emoji">🍵</span>
+            <h3>Tea</h3>
+            <p>Traditional herbs</p>
+        </div>
+        <div class="card">
+            <span class="emoji">🥐</span>
+            <h3>Pastry</h3>
+            <p>Freshly baked</p>
+        </div>
+        <div class="card">
+            <span class="emoji">🧃</span>
+            <h3>Juice</h3>
+            <p>Natural fruits</p>
+        </div>
+    </div>
+</body>
+</html>
