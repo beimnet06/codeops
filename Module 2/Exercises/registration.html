@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ethio Telecom - Registration</title>
+</head>
+<body>
+    <h1>Ethio Telecom - Service Registration</h1>
+    
+    <!-- 
+        Submission method: POST
+        Justification: This form submits sensitive user data (name, email, phone).
+        POST is more secure than GET because it does not expose data in the URL.
+        GET should only be used for non-sensitive data like search queries.
+    -->
+    <form action="#" method="post">
+        <!-- Name -->
+        <div>
+            <label for="name">Full Name:</label>
+            <input type="text" id="name" name="name" required>
+        </div>
+
+        <!-- Email -->
+        <div>
+            <label for="email">Email Address:</label>
+            <input type="email" id="email" name="email" required>
+        </div>
+
+        <!-- Tel (validated to +251 and 9 digits) -->
+        <div>
+            <label for="tel">Telephone:</label>
+            <input type="tel" id="tel" name="tel" 
+                   pattern="\+251[0-9]{9}" 
+                   placeholder="+251912345678"
+                   required>
+            <small>Format: +251 followed by 9 digits (e.g., +251912345678)</small>
+        </div>
+
+        <!-- Branch Select -->
+        <div>
+            <label for="branch">Branch:</label>
+            <select id="branch" name="branch" required>
+                <option value="">-- Select a branch --</option>
+                <option value="bole">Bole</option>
+                <option value="kazanchis">Kazanchis</option>
+                <option value="piassa">Piassa</option>
+            </select>
+        </div>
+
+        <!-- Submit Button -->
+        <div>
+            <button type="submit">Register</button>
+        </div>
+    </form>
+</body>
+</html>
