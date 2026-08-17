@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercise 5 - Color Conversion</title>
+    <style>
+        /* ============================================
+           Color Palette (Hex → RGB → HSL)
+           ============================================ */
+
+        /* 
+            Hex Palette:
+            #2C3E50 (Dark Blue)
+            #E67E22 (Orange)
+            #27AE60 (Green)
+        */
+
+        /* ===== Color 1: Dark Blue (#2C3E50) ===== */
+        .color1 {
+            background-color: #2C3E50;
+            color: white;
+        }
+
+        .color1-rgb {
+            background-color: rgb(44, 62, 80);
+            color: white;
+        }
+
+        .color1-hsl {
+            background-color: hsl(210, 29%, 24%);
+            color: white;
+        }
+
+        .color1-hsl-hover:hover {
+            background-color: hsl(210, 29%, 34%);
+            /* Lighter by 10% */
+        }
+
+        /* ===== Color 2: Orange (#E67E22) ===== */
+        .color2 {
+            background-color: #E67E22;
+            color: white;
+        }
+
+        .color2-rgb {
+            background-color: rgb(230, 126, 34);
+            color: white;
+        }
+
+        .color2-hsl {
+            background-color: hsl(28, 80%, 52%);
+            color: white;
+        }
+
+        .color2-hsl-hover:hover {
+            background-color: hsl(28, 80%, 62%);
+            /* Lighter by 10% */
+        }
+
+        /* ===== Color 3: Green (#27AE60) ===== */
+        .color3 {
+            background-color: #27AE60;
+            color: white;
+        }
+
+        .color3-rgb {
+            background-color: rgb(39, 174, 96);
+            color: white;
+        }
+
+        .color3-hsl {
+            background-color: hsl(145, 63%, 42%);
+            color: white;
+        }
+
+        .color3-hsl-hover:hover {
+            background-color: hsl(145, 63%, 52%);
+            /* Lighter by 10% */
+        }
+
+        /* ============================================
+           Styling for Demo Boxes
+           ============================================ */
+        .color-box {
+            display: inline-block;
+            padding: 20px 30px;
+            margin: 10px;
+            border-radius: 8px;
+            font-family: Arial, sans-serif;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+            cursor: pointer;
+        }
+
+        .color-box:hover {
+            transform: scale(1.02);
+        }
+
+        .container {
+            margin: 20px 0;
+        }
+
+        .label {
+            font-size: 14px;
+            color: #555;
+            margin: 5px 0;
+        }
+
+        hr {
+            margin: 30px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>🎨 Color Conversion: Hex → RGB → HSL</h1>
+
+    <p>Hover over the HSL boxes to see the lighter hover shade.</p>
+
+    <hr>
+
+    <!-- ===== COLOR 1: DARK BLUE ===== -->
+    <h2>Color 1: Dark Blue</h2>
+    <div class="container">
+        <div class="color-box color1">Hex: #2C3E50</div>
+        <div class="color-box color1-rgb">RGB: rgb(44,62,80)</div>
+        <div class="color-box color1-hsl color1-hsl-hover">HSL: hsl(210,29%,24%)<br>⬆ Hover to lighten</div>
+    </div>
+
+    <hr>
+
+    <!-- ===== COLOR 2: ORANGE ===== -->
+    <h2>Color 2: Orange</h2>
+    <div class="container">
+        <div class="color-box color2">Hex: #E67E22</div>
+        <div class="color-box color2-rgb">RGB: rgb(230,126,34)</div>
+        <div class="color-box color2-hsl color2-hsl-hover">HSL: hsl(28,80%,52%)<br>⬆ Hover to lighten</div>
+    </div>
+
+    <hr>
+
+    <!-- ===== COLOR 3: GREEN ===== -->
+    <h2>Color 3: Green</h2>
+    <div class="container">
+        <div class="color-box color3">Hex: #27AE60</div>
+        <div class="color-box color3-rgb">RGB: rgb(39,174,96)</div>
+        <div class="color-box color3-hsl color3-hsl-hover">HSL: hsl(145,63%,42%)<br>⬆ Hover to lighten</div>
+    </div>
+
+    <hr>
+
+    <!-- ===== SUMMARY TABLE ===== -->
+    <h2>📊 Color Conversion Summary</h2>
+    <table border="1" cellpadding="10" style="border-collapse: collapse; width: 100%; max-width: 700px;">
+        <thead>
+            <tr style="background-color: #333; color: white;">
+                <th>Hex</th>
+                <th>RGB</th>
+                <th>HSL</th>
+                <th>HSL Hover (Lightness +10%)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td style="background-color:#2C3E50; color:white;">#2C3E50</td>
+                <td>rgb(44, 62, 80)</td>
+                <td>hsl(210, 29%, 24%)</td>
+                <td style="background-color:hsl(210, 29%, 34%); color:white;">hsl(210, 29%, 34%)</td>
+            </tr>
+            <tr>
+                <td style="background-color:#E67E22; color:white;">#E67E22</td>
+                <td>rgb(230, 126, 34)</td>
+                <td>hsl(28, 80%, 52%)</td>
+                <td style="background-color:hsl(28, 80%, 62%); color:white;">hsl(28, 80%, 62%)</td>
+            </tr>
+            <tr>
+                <td style="background-color:#27AE60; color:white;">#27AE60</td>
+                <td>rgb(39, 174, 96)</td>
+                <td>hsl(145, 63%, 42%)</td>
+                <td style="background-color:hsl(145, 63%, 52%); color:white;">hsl(145, 63%, 52%)</td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

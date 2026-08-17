@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercise 4 - Styled Table</title>
+    <style>
+        /* Table styling */
+        .flight-table {
+            width: 100%;
+            max-width: 700px;
+            border-collapse: collapse;
+            font-family: Arial, sans-serif;
+            margin: 20px 0;
+        }
+
+        /* Header row */
+        .flight-table thead tr {
+            background-color: #1a3a5c;
+            color: white;
+            text-align: left;
+        }
+
+        .flight-table th {
+            padding: 14px 16px;
+            font-weight: bold;
+        }
+
+        /* Table cells */
+        .flight-table td {
+            padding: 12px 16px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        /* Zebra stripes - even rows */
+        .flight-table tbody tr:nth-child(even) {
+            background-color: #f2f6fa;
+        }
+
+        /* Hover effect */
+        .flight-table tbody tr:hover {
+            background-color: #e2eaf2;
+            cursor: default;
+        }
+
+        /* Caption styling */
+        .flight-table caption {
+            font-size: 1.2em;
+            font-weight: bold;
+            padding: 10px 0;
+            color: #1a3a5c;
+        }
+    </style>
+</head>
+<body>
+    <h1>✈️ Ethiopian Airlines - Flight Schedule</h1>
+
+    <table class="flight-table">
+        <caption>Domestic & Regional Flights</caption>
+        <thead>
+            <tr>
+                <th>Flight</th>
+                <th>From</th>
+                <th>To</th>
+                <th>Departs</th>
+                <th>Price (ETB)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>ET 101</td>
+                <td>Addis Ababa</td>
+                <td>Dire Dawa</td>
+                <td>08:00</td>
+                <td>2,500</td>
+            </tr>
+            <tr>
+                <td>ET 205</td>
+                <td>Addis Ababa</td>
+                <td>Bahir Dar</td>
+                <td>10:30</td>
+                <td>3,200</td>
+            </tr>
+            <tr>
+                <td>ET 312</td>
+                <td>Addis Ababa</td>
+                <td>Mekelle</td>
+                <td>13:45</td>
+                <td>3,800</td>
+            </tr>
+            <tr>
+                <td>ET 450</td>
+                <td>Addis Ababa</td>
+                <td>Nairobi</td>
+                <td>15:20</td>
+                <td>12,500</td>
+            </tr>
+            <tr>
+                <td>ET 578</td>
+                <td>Addis Ababa</td>
+                <td>Dubai</td>
+                <td>22:00</td>
+                <td>18,900</td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

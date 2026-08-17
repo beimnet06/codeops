@@ -1,0 +1,154 @@
+
+:root {
+    /* Colors */
+    --primary-color: #2C3E50;
+    --secondary-color: #E67E22;
+    
+    /* Spacing */
+    --spacing-medium: 16px;
+    
+    /* Font Stack */
+    --font-stack: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* ============================================
+   Button Styling Using var()
+   ============================================ */
+
+.btn {
+    font-family: var(--font-stack);
+    background-color: var(--primary-color);
+    color: white;
+    padding: var(--spacing-medium) calc(var(--spacing-medium) * 2);
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+    background-color: var(--secondary-color);
+}
+/* ============================================
+   :root Variables
+   ============================================ */
+:root {
+    /* Colors */
+    --brand: hsl(212, 68%, 33%);
+    --brand-hover: hsl(212, 68%, 45%);
+    --text-color: #1e293b;
+    --text-light: #64748b;
+    --background: #f8fafc;
+    --card-bg: #ffffff;
+    --border: #e2e8f0;
+
+    /* Spacing */
+    --space: 16px;
+    --space-lg: 24px;
+    --radius: 12px;
+
+    /* Fonts */
+    --font-primary: "Inter", sans-serif;
+}
+
+/* ============================================
+   Global Reset
+   ============================================ */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+/* ============================================
+   Body
+   ============================================ */
+body {
+    font-family: var(--font-primary);
+    background-color: var(--background);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    line-height: 1.6;
+    padding: var(--space);
+}
+
+/* ============================================
+   Card
+   ============================================ */
+.card {
+    max-width: 380px;
+    width: 100%;
+    padding: var(--space-lg);
+    margin: 40px auto;
+    background-color: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    text-align: center;
+}
+
+/* ============================================
+   Pseudo-element: decorative accent
+   ============================================ */
+.card::before {
+    content: "";
+    display: block;
+    width: 60px;
+    height: 4px;
+    background-color: var(--brand);
+    border-radius: 2px;
+    margin: 0 auto var(--space) auto;
+}
+
+/* ============================================
+   Typography
+   ============================================ */
+.business-name {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--text-color);
+    margin-bottom: 4px;
+}
+
+.tagline {
+    font-size: 16px;
+    font-weight: 400;
+    color: var(--brand);
+    margin-bottom: var(--space);
+}
+
+.description {
+    font-size: 15px;
+    color: var(--text-light);
+    margin-bottom: var(--space-lg);
+    line-height: 1.7;
+}
+
+/* ============================================
+   Contact Button
+   ============================================ */
+.btn {
+    display: inline-block;
+    padding: 12px 32px;
+    background-color: var(--brand);
+    color: white;
+    text-decoration: none;
+    border-radius: 30px;
+    font-weight: 600;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+    border: none;
+    cursor: pointer;
+}
+
+.btn:hover {
+    background-color: var(--brand-hover);
+}
+
+.btn:focus {
+    outline: 3px solid var(--brand);
+    outline-offset: 2px;
+}

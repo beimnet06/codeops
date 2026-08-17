@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercise 3 - Specificity</title>
+    <style>
+        /* ============================================
+           Rule 1: Element selector
+           Specificity: 0,0,1
+           ============================================ */
+        p {
+            color: blue;
+        }
+
+        /* ============================================
+           Rule 2: Class selector
+           Specificity: 0,1,0
+           ============================================ */
+        .highlight {
+            color: green;
+        }
+
+        /* ============================================
+           Rule 3: ID selector
+           Specificity: 1,0,0
+           ============================================ */
+        #special {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <h1>CSS Specificity Demo</h1>
+
+    <!-- 
+        Which color will this paragraph be?
+        Element: blue (0,0,1)
+        Class: green (0,1,0)
+        ID: red (1,0,0)
+        
+        Winner: ID (red) because 1,0,0 > 0,1,0 > 0,0,1
+    -->
+    <p class="highlight" id="special">
+        This paragraph has element, class, and ID rules.
+        <strong>ID wins!</strong> The text is red.
+    </p>
+
+    <hr>
+
+    <h2>Specificity Scores</h2>
+    <ul>
+        <li><strong>Element selector (p):</strong> 0,0,1 — blue</li>
+        <li><strong>Class selector (.highlight):</strong> 0,1,0 — green</li>
+        <li><strong>ID selector (#special):</strong> 1,0,0 — red</li>
+    </ul>
+
+    <p><strong>Winner:</strong> ID selector (red) with specificity 1,0,0</p>
+</body>
+</html>
