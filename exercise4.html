@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Exercise 4 - Promise.all</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 30px;
+            background-color: #f8fafc;
+        }
+        .container {
+            max-width: 700px;
+            margin: 0 auto;
+            background: white;
+            padding: 24px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        button {
+            padding: 10px 24px;
+            background-color: #1a3a5c;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #2c5a7c;
+        }
+        #result {
+            margin-top: 16px;
+            padding: 16px;
+            background-color: #e2e8f0;
+            border-radius: 6px;
+            min-height: 60px;
+        }
+        .loading {
+            background-color: #fef9c3 !important;
+            color: #ca8a04;
+        }
+        .success {
+            background-color: #dcfce7 !important;
+            color: #16a34a;
+        }
+        .error {
+            background-color: #fee2e2 !important;
+            color: #dc2626;
+        }
+        .post-card {
+            padding: 12px;
+            margin: 8px 0;
+            background: white;
+            border-radius: 6px;
+            border: 1px solid #e2e8f0;
+        }
+        .post-card h3 {
+            margin: 0 0 4px 0;
+            color: #1a3a5c;
+        }
+        .post-card p {
+            margin: 0;
+            font-size: 14px;
+            color: #64748b;
+        }
+        .post-card .detail {
+            margin-top: 4px;
+            font-size: 13px;
+            color: #64748b;
+            border-top: 1px solid #e2e8f0;
+            padding-top: 4px;
+        }
+        .badge {
+            display: inline-block;
+            background-color: #1a3a5c;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            margin-right: 4px;
+        }
+        .badge-green {
+            background-color: #16a34a;
+        }
+        .timer {
+            font-size: 13px;
+            color: #64748b;
+            margin-top: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 Promise.all - Parallel Fetching</h1>
+        <p>Fetches a list of posts, then fetches details for the first two in parallel.</p>
+        <button id="fetchBtn">📥 Fetch Data</button>
+        <div id="result">Click the button to start.</div>
+    </div>
+
+    <script>
+        // ============================================
+        // Exercise 4: Promise.all for Parallel Fetching
+        // ============================================
+
+        const resultDiv = document.getElementById('result');
+        const fetchBtn = document.getElementById('fetchBtn');
+
+        // ============================================
+        // Helper: Simulate delay for demonstration
+        // ============================================
+
+        const startTime = Date.now();
+
+        function logTime(label) {
+            const elapsed = ((Date.now() - startTime) / 1000).toFixed(2);
+            console.log(`[${elapsed}s] ${label}`);
+        }
+
+        // ============================================
+        // Step 1: Fetch list of posts
+        // ============================================
+
+        async function fetchPostList() {
+            const url = 'https://jsonplaceholder.typicode.com/posts?_limit=5';
+            const response = await fetch(url);
+
+            if (!response.ok) {
+                throw new Error(`Failed to fetch posts: ${response.status}`);
+            }
+
+            const data = await response.json();
+            logTime('✅ Fetched post list');
+            return data;
+        }
+
+        // ============================================
+        // Step 2: Fetch a single post detail
+        // ============================================
+
+        async function fetchPostDetail(postId) {
+            const url = `https://jsonplaceholder.typicode.com/posts/${postId}`;
+            const response = await fetch(url);
+
+            if (!response.ok) {
+                throw new Error(`Failed to fetch post ${postId}: ${response.status}`);
+            }
+
+            const data = await response.json();
+            logTime(`✅ Fetched post ${postId} details`);
+            return data;
+        }
+
+        // ============================================
+        // Step 3: Fetch details in parallel using Promise.all
+        // ============================================
+
+        async function fetchDetailsInParallel(postIds) {
+            // Create an array of promises
+            const promises = postIds.map(id => fetchPostDetail(id));
+
+            // Wait for ALL promises to resolve in parallel
+            const results = await Promise.all(promises);
+
+            logTime('✅ All details fetched in parallel');
+            return results;
+        }
+
+        // ============================================
+        // Main function
+        // ============================================
+
+        async function handleFetch() {
+            resultDiv.innerHTML = '⏳ Fetching data...';
+            resultDiv.className = 'loading';
+
+            try {
+                // Step 1: Fetch the list of posts
+                logTime('📡 Starting fetch...');
+                const posts = await fetchPostList();
+
+                // Show the list
+                let html = `<strong>📋 Post List (${posts.length} items)</strong><br /><br />`;
+                posts.forEach(post => {
+                    html += `
+                        <div class="post-card">
+                            <h3>#${post.id}: ${post.title}</h3>
+                            <p>User ${post.userId}</p>
+                        </div>
+                    `;
+                });
+
+                // Step 2: Get IDs of first two posts
+                const postIds = posts.slice(0, 2).map(p => p.id);
+                html += `<br /><strong>🔍 Fetching details for posts: ${postIds.join(', ')}</strong><br />`;
+                html += `<div style="font-size:13px; color:#64748b;">(Using Promise.all for parallel fetching)</div>`;
+
+                resultDiv.innerHTML = html;
+                resultDiv.className = 'loading';
+
+                // Step 3: Fetch details in parallel
+                logTime('🚀 Starting parallel fetch...');
+                const details = await fetchDetailsInParallel(postIds);
+
+                // Step 4: Display the details
+                html += `<br /><strong>📄 Post Details (Parallel)</strong><br />`;
+
+                details.forEach((post, index) => {
+                    const emoji = index === 0 ? '🟢' : '🟡';
+                    html += `
+                        <div class="post-card">
+                            <h3>${emoji} Post #${post.id}: ${post.title}</h3>
+                            <p>${post.body.slice(0, 80)}...</p>
+                            <div class="detail">
+                                <span class="badge">User ${post.userId}</span>
+                                <span class="badge badge-green">Fetched in parallel</span>
+                            </div>
+                        </div>
+                    `;
+                });
+
+                // Show timing information
+                const elapsed = ((Date.now() - startTime) / 1000).toFixed(2);
+                html += `
+                    <br />
+                    <div class="timer">
+                        ⏱️ Total time: ${elapsed}s (parallel fetch)
+                        <br />
+                        💡 Both details were fetched at the same time!
+                    </div>
+                `;
+
+                resultDiv.innerHTML = html;
+                resultDiv.className = 'success';
+
+                console.log(`✅ All done! Total time: ${elapsed}s`);
+                console.log('💡 Promise.all fetched both details in parallel');
+
+            } catch (error) {
+                resultDiv.innerHTML = `
+                    <strong>❌ Error</strong><br />
+                    ${error.message}
+                `;
+                resultDiv.className = 'error';
+                console.error('❌ Error:', error);
+            }
+        }
+
+        // ============================================
+        // Event Listener
+        // ============================================
+
+        fetchBtn.addEventListener('click', handleFetch);
+
+        // ============================================
+        // Console Log
+        // ============================================
+
+        console.log('✅ Exercise 4 ready!');
+        console.log('🚀 This demo uses Promise.all to fetch details in parallel.');
+        console.log('📊 Check the console to see the timing of each fetch.');
+        console.log('');
+        console.log('💡 Without Promise.all: fetch one, wait, then fetch next (serial)');
+        console.log('💡 With Promise.all: fetch both at the same time (parallel)');
+        console.log('   This is much faster!');
+    </script>
+</body>
+</html>

@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Exercise 1 - Fetch Exchange Rate</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 30px;
+            background-color: #f8fafc;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            padding: 24px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        button {
+            padding: 10px 24px;
+            background-color: #1a3a5c;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #2c5a7c;
+        }
+        #result {
+            margin-top: 16px;
+            padding: 16px;
+            background-color: #e2e8f0;
+            border-radius: 6px;
+            font-size: 18px;
+        }
+        .error {
+            background-color: #fee2e2 !important;
+            color: #dc2626;
+        }
+        .success {
+            background-color: #dcfce7 !important;
+            color: #16a34a;
+        }
+        .loading {
+            background-color: #fef9c3 !important;
+            color: #ca8a04;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>💱 USD → ETB Exchange Rate</h1>
+        <p>Fetches the current USD to Ethiopian Birr exchange rate from a public API.</p>
+        <button id="fetchBtn">Get Rate</button>
+        <div id="result">Click the button to fetch the rate.</div>
+    </div>
+
+    <script>
+        // ============================================
+        // Exercise 1: Fetch USD → ETB Exchange Rate
+        // ============================================
+
+        const resultDiv = document.getElementById('result');
+        const fetchBtn = document.getElementById('fetchBtn');
+
+        /**
+         * Async function to fetch USD → ETB exchange rate
+         * Uses a public exchange-rate API
+         */
+        async function getExchangeRate() {
+            // Free API from exchangerate-api.com
+            const url = 'https://api.exchangerate-api.com/v4/latest/USD';
+
+            try {
+                // 1. Fetch the data
+                const response = await fetch(url);
+
+                // 2. Check if response is OK (status 200-299)
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+
+                // 3. Parse JSON
+                const data = await response.json();
+
+                // 4. Extract ETB rate (or fallback)
+                const rate = data.rates.ETB;
+
+                if (!rate) {
+                    throw new Error('ETB rate not found in response');
+                }
+
+                return rate;
+
+            } catch (error) {
+                console.error('Error fetching exchange rate:', error);
+                throw error;
+            }
+        }
+
+        // ============================================
+        // UI Handler
+        // ============================================
+
+        async function handleFetch() {
+            // Show loading state
+            resultDiv.textContent = '⏳ Fetching exchange rate...';
+            resultDiv.className = 'loading';
+
+            try {
+                const rate = await getExchangeRate();
+
+                // Display success
+                resultDiv.innerHTML = `
+                    <strong>✅ Success!</strong><br />
+                    1 USD = <strong>${rate.toFixed(2)}</strong> ETB
+                    <br /><span style="font-size:14px; color:#64748b;">
+                        Last updated: ${new Date().toLocaleString()}
+                    </span>
+                `;
+                resultDiv.className = 'success';
+
+            } catch (error) {
+                // Display error
+                resultDiv.innerHTML = `
+                    <strong>❌ Error</strong><br />
+                    ${error.message}
+                    <br /><span style="font-size:14px; color:#64748b;">
+                        Please try again later.
+                    </span>
+                `;
+                resultDiv.className = 'error';
+            }
+        }
+
+        // ============================================
+        // Event Listener
+        // ============================================
+
+        fetchBtn.addEventListener('click', handleFetch);
+
+        // ============================================
+        // Automatic fetch on page load (optional)
+        // ============================================
+
+        console.log('✅ Exercise 1 ready!');
+        console.log('💡 Click "Get Rate" to fetch the USD → ETB exchange rate.');
+        console.log('🔍 The function checks res.ok and handles errors.');
+
+        // Uncomment below to auto-fetch on load:
+        // handleFetch();
+    </script>
+</body>
+</html>

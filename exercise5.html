@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Exercise 5 - Loading States</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 30px;
+            background-color: #f8fafc;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            padding: 24px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .btn-group {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin: 16px 0;
+        }
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+        }
+        .btn-fetch {
+            background-color: #1a3a5c;
+            color: white;
+        }
+        .btn-fetch:hover {
+            background-color: #2c5a7c;
+        }
+        .btn-error {
+            background-color: #dc2626;
+            color: white;
+        }
+        .btn-error:hover {
+            background-color: #b91c1c;
+        }
+        .btn-clear {
+            background-color: #64748b;
+            color: white;
+        }
+        .btn-clear:hover {
+            background-color: #475569;
+        }
+        #status {
+            margin-top: 16px;
+            padding: 16px;
+            border-radius: 6px;
+            min-height: 80px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+        /* ============================================
+           THREE STATES
+        ============================================ */
+
+        /* 1. LOADING STATE */
+        .state-loading {
+            background-color: #fef9c3;
+            color: #ca8a04;
+            border: 2px solid #fde68a;
+        }
+
+        .state-loading .spinner {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            border: 4px solid #fde68a;
+            border-top-color: #ca8a04;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin-bottom: 10px;
+        }
+
+        /* 2. SUCCESS STATE */
+        .state-success {
+            background-color: #dcfce7;
+            color: #16a34a;
+            border: 2px solid #86efac;
+        }
+
+        /* 3. ERROR STATE */
+        .state-error {
+            background-color: #fee2e2;
+            color: #dc2626;
+            border: 2px solid #fca5a5;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .data-item {
+            padding: 8px 12px;
+            margin: 4px 0;
+            background: white;
+            border-radius: 4px;
+            border: 1px solid #e2e8f0;
+            width: 100%;
+            text-align: left;
+        }
+        .data-item strong {
+            color: #1a3a5c;
+        }
+        .data-item .id {
+            background-color: #1a3a5c;
+            color: white;
+            padding: 1px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            margin-right: 8px;
+        }
+        .status-label {
+            font-weight: 700;
+            font-size: 18px;
+            margin-bottom: 4px;
+        }
+        .status-sub {
+            font-size: 13px;
+            opacity: 0.7;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📡 API States Demo</h1>
+        <p>Shows three states: Loading, Success, Error.</p>
+
+        <div class="btn-group">
+            <button class="btn-fetch" id="fetchBtn">✅ Success (Good URL)</button>
+            <button class="btn-error" id="errorBtn">❌ Error (Bad URL)</button>
+            <button class="btn-clear" id="clearBtn">🗑️ Clear</button>
+        </div>
+
+        <div id="status">
+            <span style="color:#94a3b8;">Click a button to see different states.</span>
+        </div>
+    </div>
+
+    <script>
+        // ============================================
+        // Exercise 5: Loading States
+        // ============================================
+
+        const statusDiv = document.getElementById('status');
+        const fetchBtn = document.getElementById('fetchBtn');
+        const errorBtn = document.getElementById('errorBtn');
+        const clearBtn = document.getElementById('clearBtn');
+
+        // ============================================
+        // STATE 1: LOADING
+        // ============================================
+
+        function showLoading() {
+            statusDiv.innerHTML = `
+                <div class="spinner"></div>
+                <div class="status-label">⏳ Loading...</div>
+                <div class="status-sub">Fetching data from the server</div>
+            `;
+            statusDiv.className = 'state-loading';
+            console.log('🔄 Loading state');
+        }
+
+        // ============================================
+        // STATE 2: SUCCESS
+        // ============================================
+
+        function showSuccess(data) {
+            let itemsHtml = '';
+            data.forEach(item => {
+                itemsHtml += `
+                    <div class="data-item">
+                        <span class="id">#${item.id}</span>
+                        <strong>${item.title}</strong>
+                    </div>
+                `;
+            });
+
+            statusDiv.innerHTML = `
+                <div class="status-label">✅ Success!</div>
+                <div class="status-sub">Fetched ${data.length} items</div>
+                <br />
+                <div style="width:100%; max-height:200px; overflow-y:auto;">
+                    ${itemsHtml}
+                </div>
+            `;
+            statusDiv.className = 'state-success';
+            console.log('✅ Success state');
+        }
+
+        // ============================================
+        // STATE 3: ERROR
+        // ============================================
+
+        function showError(message) {
+            statusDiv.innerHTML = `
+                <div class="status-label">❌ Error</div>
+                <div class="status-sub">${message}</div>
+                <br />
+                <div style="font-size:13px; opacity:0.7;">
+                    💡 Check your network or try again later.
+                </div>
+            `;
+            statusDiv.className = 'state-error';
+            console.log('❌ Error state:', message);
+        }
+
+        // ============================================
+        // STATE 4: IDLE (Clear)
+        // ============================================
+
+        function showIdle() {
+            statusDiv.innerHTML = `
+                <span style="color:#94a3b8;">Click a button to see different states.</span>
+            `;
+            statusDiv.className = '';
+            console.log('🗑️ Idle state');
+        }
+
+        // ============================================
+        // Fetch Functions
+        // ============================================
+
+        async function fetchData(url) {
+            // 1. Show LOADING state
+            showLoading();
+
+            try {
+                // 2. Simulate network delay
+                await new Promise(resolve => setTimeout(resolve, 800));
+
+                const response = await fetch(url);
+
+                // 3. Check for HTTP errors
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+
+                const data = await response.json();
+
+                // 4. Show SUCCESS state
+                showSuccess(data);
+
+            } catch (error) {
+                // 5. Show ERROR state
+                showError(error.message);
+            }
+        }
+
+        // ============================================
+        // Event Handlers
+        // ============================================
+
+        // Good URL → Success
+        fetchBtn.addEventListener('click', function() {
+            const url = 'https://jsonplaceholder.typicode.com/posts?_limit=5';
+            fetchData(url);
+        });
+
+        // Bad URL → Error
+        errorBtn.addEventListener('click', function() {
+            const url = 'https://jsonplaceholder.typicode.com/invalid-endpoint';
+            fetchData(url);
+        });
+
+        // Clear → Idle
+        clearBtn.addEventListener('click', showIdle);
+
+        // ============================================
+        // Console Log
+        // ============================================
+
+        console.log('✅ Exercise 5 ready!');
+        console.log('📌 Three states demonstrated:');
+        console.log('  1. LOADING  → ⏳ Spinner appears');
+        console.log('  2. SUCCESS  → ✅ Data displayed');
+        console.log('  3. ERROR    → ❌ Error message');
+        console.log('');
+        console.log('💡 To test the LOADING state:');
+        console.log('   - Click "Success" and watch the spinner');
+        console.log('   - Click "Error" and watch the spinner then error');
+        console.log('   - Use Chrome DevTools → Network → Slow 3G to see loading longer');
+    </script>
+</body>
+</html>

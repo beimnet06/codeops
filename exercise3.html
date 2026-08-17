@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Exercise 3 - Error Handling & res.ok</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 30px;
+            background-color: #f8fafc;
+        }
+        .container {
+            max-width: 700px;
+            margin: 0 auto;
+            background: white;
+            padding: 24px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .btn-group {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin: 16px 0;
+        }
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+        }
+        .btn-bad {
+            background-color: #dc2626;
+            color: white;
+        }
+        .btn-bad:hover {
+            background-color: #b91c1c;
+        }
+        .btn-404 {
+            background-color: #f59e0b;
+            color: white;
+        }
+        .btn-404:hover {
+            background-color: #d97706;
+        }
+        .btn-good {
+            background-color: #16a34a;
+            color: white;
+        }
+        .btn-good:hover {
+            background-color: #15803d;
+        }
+        .btn-clear {
+            background-color: #64748b;
+            color: white;
+        }
+        .btn-clear:hover {
+            background-color: #475569;
+        }
+        #result {
+            margin-top: 16px;
+            padding: 16px;
+            background-color: #e2e8f0;
+            border-radius: 6px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            min-height: 80px;
+            white-space: pre-wrap;
+        }
+        .loading {
+            background-color: #fef9c3 !important;
+            color: #ca8a04;
+        }
+        .success {
+            background-color: #dcfce7 !important;
+            color: #16a34a;
+        }
+        .error {
+            background-color: #fee2e2 !important;
+            color: #dc2626;
+        }
+        .info {
+            background-color: #dbeafe !important;
+            color: #2563eb;
+        }
+        .step {
+            margin: 8px 0;
+            padding: 8px;
+            border-left: 3px solid #94a3b8;
+            background-color: #f8fafc;
+            border-radius: 4px;
+        }
+        .step .num {
+            font-weight: 700;
+            color: #1a3a5c;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>⚠️ Error Handling & res.ok</h1>
+        <p>Demonstrating why you need both <code>try/catch</code> and <code>res.ok</code>.</p>
+
+        <div class="btn-group">
+            <button class="btn-bad" id="badUrlBtn">❌ Wrong URL</button>
+            <button class="btn-404" id="notFoundBtn">📄 404 URL</button>
+            <button class="btn-good" id="goodUrlBtn">✅ Good URL</button>
+            <button class="btn-clear" id="clearBtn">🗑️ Clear</button>
+        </div>
+
+        <div id="result">Click a button to test different scenarios.</div>
+    </div>
+
+    <script>
+        // ============================================
+        // Exercise 3: Error Handling & res.ok
+        // ============================================
+
+        const resultDiv = document.getElementById('result');
+        const badUrlBtn = document.getElementById('badUrlBtn');
+        const notFoundBtn = document.getElementById('notFoundBtn');
+        const goodUrlBtn = document.getElementById('goodUrlBtn');
+        const clearBtn = document.getElementById('clearBtn');
+
+        // ============================================
+        // Helper: Render steps
+        // ============================================
+
+        function renderSteps(steps, title, type) {
+            let html = `<strong>${title}</strong>\n\n`;
+            steps.forEach(step => {
+                html += `  ${step}\n`;
+            });
+            resultDiv.textContent = html;
+            resultDiv.className = type;
+        }
+
+        function renderSuccess(data) {
+            let html = `✅ Success!\n\n`;
+            html += `Status: ${data.status}\n`;
+            html += `Data fetched: ${data.length} items\n\n`;
+            html += `First item:\n`;
+            html += `  Title: ${data[0]?.title || 'N/A'}`;
+            resultDiv.textContent = html;
+            resultDiv.className = 'success';
+        }
+
+        // ============================================
+        // SCENARIO 1: Wrong URL (Network Error)
+        // ============================================
+
+        async function testWrongUrl() {
+            resultDiv.textContent = '⏳ Fetching from wrong URL...';
+            resultDiv.className = 'loading';
+
+            const steps = [];
+            const url = 'https://api.this-does-not-exist-12345.com/data';
+
+            try {
+                steps.push('📡 Step 1: fetch("' + url + '")');
+
+                const response = await fetch(url);
+
+                // This line will NOT run because fetch throws on invalid URL
+                steps.push('✅ Step 2: Response received (this will not run)');
+
+                renderSteps(steps, '❌ This should not happen!', 'error');
+
+            } catch (error) {
+                steps.push('❌ Step 2: fetch threw an error!');
+                steps.push(`   Error: ${error.message}`);
+                steps.push('');
+                steps.push('💡 This is a NETWORK ERROR because the URL is invalid.');
+                steps.push('   The catch block caught it automatically.');
+
+                renderSteps(steps, '❌ Network Error Caught!', 'error');
+                console.log('❌ Wrong URL error:', error.message);
+            }
+        }
+
+        // ============================================
+        // SCENARIO 2: Real URL that returns 404
+        // ============================================
+
+        async function test404Url() {
+            resultDiv.textContent = '⏳ Fetching 404 URL...';
+            resultDiv.className = 'loading';
+
+            const steps = [];
+            const url = 'https://jsonplaceholder.typicode.com/posts/9999';
+
+            try {
+                steps.push('📡 Step 1: fetch("' + url + '")');
+
+                const response = await fetch(url);
+
+                steps.push(`✅ Step 2: Response received! Status: ${response.status}`);
+
+                // This is where res.ok saves us!
+                if (!response.ok) {
+                    steps.push('❌ Step 3: res.ok is FALSE!');
+                    steps.push(`   Status: ${response.status} ${response.statusText}`);
+                    steps.push('');
+                    steps.push('💡 THIS IS WHY WE NEED res.ok!');
+                    steps.push('   fetch() does NOT reject on 404.');
+                    steps.push('   Without res.ok, the code would continue.');
+
+                    renderSteps(steps, '⚠️ 404 Not Found (res.ok check)', 'error');
+                    console.log('⚠️ 404 response:', response.status);
+                    return;
+                }
+
+                const data = await response.json();
+                steps.push('✅ Step 3: Data parsed successfully');
+                renderSteps(steps, '✅ Success! (this should not happen for 404)', 'success');
+
+            } catch (error) {
+                steps.push('❌ Step 2: Something went wrong');
+                steps.push(`   Error: ${error.message}`);
+                renderSteps(steps, '❌ Unexpected Error', 'error');
+                console.error('❌ 404 test error:', error);
+            }
+        }
+
+        // ============================================
+        // SCENARIO 3: Good URL (Success)
+        // ============================================
+
+        async function testGoodUrl() {
+            resultDiv.textContent = '⏳ Fetching from good URL...';
+            resultDiv.className = 'loading';
+
+            const steps = [];
+            const url = 'https://jsonplaceholder.typicode.com/posts?_limit=3';
+
+            try {
+                steps.push('📡 Step 1: fetch("' + url + '")');
+
+                const response = await fetch(url);
+
+                steps.push(`✅ Step 2: Response received! Status: ${response.status}`);
+
+                if (!response.ok) {
+                    steps.push(`❌ Step 3: res.ok is FALSE! (${response.status})`);
+                    renderSteps(steps, '❌ Response Error', 'error');
+                    return;
+                }
+
+                steps.push('✅ Step 3: res.ok is TRUE!');
+
+                const data = await response.json();
+                steps.push('✅ Step 4: Data parsed successfully');
+                steps.push(`   Fetched ${data.length} items`);
+
+                renderSteps(steps, '✅ Success!', 'success');
+
+                // Also display the data nicely
+                let html = '✅ Success!\n\n';
+                html += `Status: ${response.status}\n`;
+                html += `Data fetched: ${data.length} items\n\n`;
+                html += `First item:\n`;
+                html += `  Title: ${data[0]?.title || 'N/A'}`;
+                resultDiv.textContent = html;
+                resultDiv.className = 'success';
+
+                console.log('✅ Good URL test success:', data);
+
+            } catch (error) {
+                steps.push(`❌ Error: ${error.message}`);
+                renderSteps(steps, '❌ Error', 'error');
+                console.error('❌ Good URL error:', error);
+            }
+        }
+
+        // ============================================
+        // Event Listeners
+        // ============================================
+
+        badUrlBtn.addEventListener('click', testWrongUrl);
+        notFoundBtn.addEventListener('click', test404Url);
+        goodUrlBtn.addEventListener('click', testGoodUrl);
+
+        clearBtn.addEventListener('click', function() {
+            resultDiv.textContent = '🗑️ Cleared. Click a button to test different scenarios.';
+            resultDiv.className = '';
+        });
+
+        // ============================================
+        // Console Log
+        // ============================================
+
+        console.log('✅ Exercise 3 ready!');
+        console.log('📌 Three scenarios to test:');
+        console.log('  1. Wrong URL → Network error (caught by try/catch)');
+        console.log('  2. 404 URL → HTTP error (caught by res.ok check)');
+        console.log('  3. Good URL → Success!');
+        console.log('');
+        console.log('💡 KEY LESSON: fetch() only rejects on network errors.');
+        console.log('   HTTP errors (404, 500, etc.) are NOT rejected automatically.');
+        console.log('   You MUST check res.ok to handle HTTP errors!');
+    </script>
+</body>
+</html>
