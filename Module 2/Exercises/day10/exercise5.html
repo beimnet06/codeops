@@ -67,11 +67,7 @@
             justify-content: center;
             text-align: center;
         }
-        /* ============================================
-           THREE STATES
-        ============================================ */
 
-        /* 1. LOADING STATE */
         .state-loading {
             background-color: #fef9c3;
             color: #ca8a04;
@@ -89,14 +85,12 @@
             margin-bottom: 10px;
         }
 
-        /* 2. SUCCESS STATE */
         .state-success {
             background-color: #dcfce7;
             color: #16a34a;
             border: 2px solid #86efac;
         }
 
-        /* 3. ERROR STATE */
         .state-error {
             background-color: #fee2e2;
             color: #dc2626;
@@ -155,18 +149,10 @@
     </div>
 
     <script>
-        // ============================================
-        // Exercise 5: Loading States
-        // ============================================
-
         const statusDiv = document.getElementById('status');
         const fetchBtn = document.getElementById('fetchBtn');
         const errorBtn = document.getElementById('errorBtn');
         const clearBtn = document.getElementById('clearBtn');
-
-        // ============================================
-        // STATE 1: LOADING
-        // ============================================
 
         function showLoading() {
             statusDiv.innerHTML = `
@@ -177,10 +163,6 @@
             statusDiv.className = 'state-loading';
             console.log('🔄 Loading state');
         }
-
-        // ============================================
-        // STATE 2: SUCCESS
-        // ============================================
 
         function showSuccess(data) {
             let itemsHtml = '';
@@ -205,10 +187,6 @@
             console.log('✅ Success state');
         }
 
-        // ============================================
-        // STATE 3: ERROR
-        // ============================================
-
         function showError(message) {
             statusDiv.innerHTML = `
                 <div class="status-label">❌ Error</div>
@@ -222,10 +200,6 @@
             console.log('❌ Error state:', message);
         }
 
-        // ============================================
-        // STATE 4: IDLE (Clear)
-        // ============================================
-
         function showIdle() {
             statusDiv.innerHTML = `
                 <span style="color:#94a3b8;">Click a button to see different states.</span>
@@ -234,69 +208,42 @@
             console.log('🗑️ Idle state');
         }
 
-        // ============================================
-        // Fetch Functions
-        // ============================================
-
         async function fetchData(url) {
-            // 1. Show LOADING state
             showLoading();
 
             try {
-                // 2. Simulate network delay
                 await new Promise(resolve => setTimeout(resolve, 800));
-
                 const response = await fetch(url);
 
-                // 3. Check for HTTP errors
                 if (!response.ok) {
                     throw new Error(`HTTP ${response.status}: ${response.statusText}`);
                 }
 
                 const data = await response.json();
-
-                // 4. Show SUCCESS state
                 showSuccess(data);
 
             } catch (error) {
-                // 5. Show ERROR state
                 showError(error.message);
             }
         }
 
-        // ============================================
-        // Event Handlers
-        // ============================================
-
-        // Good URL → Success
         fetchBtn.addEventListener('click', function() {
             const url = 'https://jsonplaceholder.typicode.com/posts?_limit=5';
             fetchData(url);
         });
 
-        // Bad URL → Error
         errorBtn.addEventListener('click', function() {
             const url = 'https://jsonplaceholder.typicode.com/invalid-endpoint';
             fetchData(url);
         });
 
-        // Clear → Idle
         clearBtn.addEventListener('click', showIdle);
-
-        // ============================================
-        // Console Log
-        // ============================================
 
         console.log('✅ Exercise 5 ready!');
         console.log('📌 Three states demonstrated:');
         console.log('  1. LOADING  → ⏳ Spinner appears');
         console.log('  2. SUCCESS  → ✅ Data displayed');
         console.log('  3. ERROR    → ❌ Error message');
-        console.log('');
-        console.log('💡 To test the LOADING state:');
-        console.log('   - Click "Success" and watch the spinner');
-        console.log('   - Click "Error" and watch the spinner then error');
-        console.log('   - Use Chrome DevTools → Network → Slow 3G to see loading longer');
     </script>
 </body>
 </html>

@@ -60,34 +60,20 @@
     </div>
 
     <script>
-        // ============================================
-        // Exercise 1: Fetch USD → ETB Exchange Rate
-        // ============================================
-
         const resultDiv = document.getElementById('result');
         const fetchBtn = document.getElementById('fetchBtn');
 
-        /**
-         * Async function to fetch USD → ETB exchange rate
-         * Uses a public exchange-rate API
-         */
         async function getExchangeRate() {
-            // Free API from exchangerate-api.com
             const url = 'https://api.exchangerate-api.com/v4/latest/USD';
 
             try {
-                // 1. Fetch the data
                 const response = await fetch(url);
 
-                // 2. Check if response is OK (status 200-299)
                 if (!response.ok) {
                     throw new Error(`HTTP error! Status: ${response.status}`);
                 }
 
-                // 3. Parse JSON
                 const data = await response.json();
-
-                // 4. Extract ETB rate (or fallback)
                 const rate = data.rates.ETB;
 
                 if (!rate) {
@@ -102,19 +88,12 @@
             }
         }
 
-        // ============================================
-        // UI Handler
-        // ============================================
-
         async function handleFetch() {
-            // Show loading state
             resultDiv.textContent = '⏳ Fetching exchange rate...';
             resultDiv.className = 'loading';
 
             try {
                 const rate = await getExchangeRate();
-
-                // Display success
                 resultDiv.innerHTML = `
                     <strong>✅ Success!</strong><br />
                     1 USD = <strong>${rate.toFixed(2)}</strong> ETB
@@ -125,7 +104,6 @@
                 resultDiv.className = 'success';
 
             } catch (error) {
-                // Display error
                 resultDiv.innerHTML = `
                     <strong>❌ Error</strong><br />
                     ${error.message}
@@ -137,22 +115,8 @@
             }
         }
 
-        // ============================================
-        // Event Listener
-        // ============================================
-
         fetchBtn.addEventListener('click', handleFetch);
-
-        // ============================================
-        // Automatic fetch on page load (optional)
-        // ============================================
-
         console.log('✅ Exercise 1 ready!');
-        console.log('💡 Click "Get Rate" to fetch the USD → ETB exchange rate.');
-        console.log('🔍 The function checks res.ok and handles errors.');
-
-        // Uncomment below to auto-fetch on load:
-        // handleFetch();
     </script>
 </body>
 </html>

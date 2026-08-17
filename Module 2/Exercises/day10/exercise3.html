@@ -82,10 +82,6 @@
             background-color: #fee2e2 !important;
             color: #dc2626;
         }
-        .info {
-            background-color: #dbeafe !important;
-            color: #2563eb;
-        }
         .step {
             margin: 8px 0;
             padding: 8px;
@@ -115,19 +111,11 @@
     </div>
 
     <script>
-        // ============================================
-        // Exercise 3: Error Handling & res.ok
-        // ============================================
-
         const resultDiv = document.getElementById('result');
         const badUrlBtn = document.getElementById('badUrlBtn');
         const notFoundBtn = document.getElementById('notFoundBtn');
         const goodUrlBtn = document.getElementById('goodUrlBtn');
         const clearBtn = document.getElementById('clearBtn');
-
-        // ============================================
-        // Helper: Render steps
-        // ============================================
 
         function renderSteps(steps, title, type) {
             let html = `<strong>${title}</strong>\n\n`;
@@ -138,20 +126,6 @@
             resultDiv.className = type;
         }
 
-        function renderSuccess(data) {
-            let html = `✅ Success!\n\n`;
-            html += `Status: ${data.status}\n`;
-            html += `Data fetched: ${data.length} items\n\n`;
-            html += `First item:\n`;
-            html += `  Title: ${data[0]?.title || 'N/A'}`;
-            resultDiv.textContent = html;
-            resultDiv.className = 'success';
-        }
-
-        // ============================================
-        // SCENARIO 1: Wrong URL (Network Error)
-        // ============================================
-
         async function testWrongUrl() {
             resultDiv.textContent = '⏳ Fetching from wrong URL...';
             resultDiv.className = 'loading';
@@ -161,12 +135,8 @@
 
             try {
                 steps.push('📡 Step 1: fetch("' + url + '")');
-
                 const response = await fetch(url);
-
-                // This line will NOT run because fetch throws on invalid URL
                 steps.push('✅ Step 2: Response received (this will not run)');
-
                 renderSteps(steps, '❌ This should not happen!', 'error');
 
             } catch (error) {
@@ -181,10 +151,6 @@
             }
         }
 
-        // ============================================
-        // SCENARIO 2: Real URL that returns 404
-        // ============================================
-
         async function test404Url() {
             resultDiv.textContent = '⏳ Fetching 404 URL...';
             resultDiv.className = 'loading';
@@ -194,12 +160,9 @@
 
             try {
                 steps.push('📡 Step 1: fetch("' + url + '")');
-
                 const response = await fetch(url);
-
                 steps.push(`✅ Step 2: Response received! Status: ${response.status}`);
 
-                // This is where res.ok saves us!
                 if (!response.ok) {
                     steps.push('❌ Step 3: res.ok is FALSE!');
                     steps.push(`   Status: ${response.status} ${response.statusText}`);
@@ -225,10 +188,6 @@
             }
         }
 
-        // ============================================
-        // SCENARIO 3: Good URL (Success)
-        // ============================================
-
         async function testGoodUrl() {
             resultDiv.textContent = '⏳ Fetching from good URL...';
             resultDiv.className = 'loading';
@@ -238,9 +197,7 @@
 
             try {
                 steps.push('📡 Step 1: fetch("' + url + '")');
-
                 const response = await fetch(url);
-
                 steps.push(`✅ Step 2: Response received! Status: ${response.status}`);
 
                 if (!response.ok) {
@@ -250,14 +207,12 @@
                 }
 
                 steps.push('✅ Step 3: res.ok is TRUE!');
-
                 const data = await response.json();
                 steps.push('✅ Step 4: Data parsed successfully');
                 steps.push(`   Fetched ${data.length} items`);
 
                 renderSteps(steps, '✅ Success!', 'success');
 
-                // Also display the data nicely
                 let html = '✅ Success!\n\n';
                 html += `Status: ${response.status}\n`;
                 html += `Data fetched: ${data.length} items\n\n`;
@@ -275,10 +230,6 @@
             }
         }
 
-        // ============================================
-        // Event Listeners
-        // ============================================
-
         badUrlBtn.addEventListener('click', testWrongUrl);
         notFoundBtn.addEventListener('click', test404Url);
         goodUrlBtn.addEventListener('click', testGoodUrl);
@@ -287,10 +238,6 @@
             resultDiv.textContent = '🗑️ Cleared. Click a button to test different scenarios.';
             resultDiv.className = '';
         });
-
-        // ============================================
-        // Console Log
-        // ============================================
 
         console.log('✅ Exercise 3 ready!');
         console.log('📌 Three scenarios to test:');
