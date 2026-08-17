@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Exercise 2 - save() and load() Helpers</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 30px;
+            background-color: #f8fafc;
+        }
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            background: white;
+            padding: 24px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+        }
+        .btn-save {
+            background-color: #1a3a5c;
+            color: white;
+        }
+        .btn-save:hover {
+            background-color: #2c5a7c;
+        }
+        .btn-load {
+            background-color: #16a34a;
+            color: white;
+        }
+        .btn-load:hover {
+            background-color: #15803d;
+        }
+        .btn-clear {
+            background-color: #dc2626;
+            color: white;
+        }
+        .btn-clear:hover {
+            background-color: #b91c1c;
+        }
+        .btn-group {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin: 16px 0;
+        }
+        #output {
+            padding: 12px;
+            background-color: #e2e8f0;
+            border-radius: 6px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            min-height: 60px;
+            white-space: pre-wrap;
+        }
+        .success {
+            background-color: #dcfce7 !important;
+            color: #16a34a;
+        }
+        .error {
+            background-color: #fee2e2 !important;
+            color: #dc2626;
+        }
+        .info {
+            background-color: #dbeafe !important;
+            color: #2563eb;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>💾 save() & load() Helpers</h1>
+        <p>Store and retrieve arrays from localStorage with error handling.</p>
+
+        <div class="btn-group">
+            <button class="btn-save" id="saveBtn">💾 Save Sample Data</button>
+            <button class="btn-load" id="loadBtn">📂 Load Data</button>
+            <button class="btn-clear" id="clearBtn">🗑️ Clear Data</button>
+        </div>
+
+        <div id="output">Click a button to test save/load functions.</div>
+    </div>
+
+    <script>
+        // ============================================
+        // Exercise 2: save() and load() Helpers
+        // ============================================
+
+        const outputDiv = document.getElementById('output');
+        const saveBtn = document.getElementById('saveBtn');
+        const loadBtn = document.getElementById('loadBtn');
+        const clearBtn = document.getElementById('clearBtn');
+
+        // ============================================
+        // save() - Stringify array to localStorage
+        // ============================================
+
+        function save(key, data) {
+            try {
+                const jsonData = JSON.stringify(data);
+                localStorage.setItem(key, jsonData);
+                return true;
+            } catch (error) {
+                console.error('Save error:', error);
+                return false;
+            }
+        }
+
+        // ============================================
+        // load() - Parse array from localStorage
+        // ============================================
+
+        function load(key) {
+            try {
+                const storedData = localStorage.getItem(key);
+
+                // Guard: null or undefined
+                if (storedData === null) {
+                    return null;
+                }
+
+                // Parse JSON
+                const parsedData = JSON.parse(storedData);
+
+                // Guard: corrupt data (not an array)
+                if (!Array.isArray(parsedData)) {
+                    throw new Error('Data is not an array');
+                }
+
+                return parsedData;
+
+            } catch (error) {
+                console.error('Load error:', error);
+                return null;
+            }
+        }
+
+        // ============================================
+        // Demo Functions
+        // ============================================
+
+        const STORAGE_KEY = 'shoppingList';
+
+        function saveSampleData() {
+            const sampleData = [
+                'Injera',
+                'Coffee',
+                'Teff Flour',
+                'Shea Butter',
+                'Honey'
+            ];
+
+            const result = save(STORAGE_KEY, sampleData);
+
+            if (result) {
+                outputDiv.textContent = '✅ Data saved successfully!\n\n' + JSON.stringify(sampleData, null, 2);
+                outputDiv.className = 'success';
+                console.log('✅ Data saved:', sampleData);
+            } else {
+                outputDiv.textContent = '❌ Failed to save data.';
+                outputDiv.className = 'error';
+            }
+        }
+
+        function loadData() {
+            const data = load(STORAGE_KEY);
+
+            if (data === null) {
+                outputDiv.textContent = '📭 No data found in localStorage.\n\n💡 Click "Save Sample Data" first.';
+                outputDiv.className = 'info';
+                return;
+            }
+
+            outputDiv.textContent = '✅ Data loaded successfully!\n\n' + JSON.stringify(data, null, 2);
+            outputDiv.className = 'success';
+            console.log('✅ Data loaded:', data);
+        }
+
+        function clearData() {
+            localStorage.removeItem(STORAGE_KEY);
+            outputDiv.textContent = '🗑️ Data cleared from localStorage.\n\n💡 Click "Save Sample Data" to add new data.';
+            outputDiv.className = 'info';
+            console.log('🗑️ Data cleared');
+        }
+
+        // ============================================
+        // Event Listeners
+        // ============================================
+
+        saveBtn.addEventListener('click', saveSampleData);
+        loadBtn.addEventListener('click', loadData);
+        clearBtn.addEventListener('click', clearData);
+
+        console.log('✅ Exercise 2 ready!');
+        console.log('📌 save() and load() helpers with error handling.');
+        console.log('💡 Try saving, loading, and clearing data.');
+    </script>
+</body>
+</html>
