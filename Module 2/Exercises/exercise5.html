@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Exercise 5 - Form Handling</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 30px;
+            background-color: #f8fafc;
+        }
+
+        .container {
+            max-width: 500px;
+        }
+
+        h1 {
+            color: #1a3a5c;
+        }
+
+        form {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        form input {
+            flex: 1;
+            padding: 10px 14px;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        form input:focus {
+            outline: none;
+            border-color: #1a3a5c;
+        }
+
+        form button {
+            padding: 10px 24px;
+            background-color: #1a3a5c;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        form button:hover {
+            background-color: #2c5a7c;
+        }
+
+        .item-list {
+            list-style: none;
+            padding: 0;
+            margin: 10px 0;
+        }
+
+        .item-list li {
+            padding: 10px 16px;
+            margin-bottom: 6px;
+            background-color: white;
+            border-radius: 6px;
+            border: 1px solid #e2e8f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .item-list li .delete-btn {
+            padding: 4px 12px;
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        .item-list li .delete-btn:hover {
+            background-color: #c0392b;
+        }
+
+        .info {
+            margin-top: 16px;
+            padding: 10px;
+            background-color: #e2e8f0;
+            border-radius: 6px;
+            font-size: 14px;
+            color: #475569;
+        }
+
+        .info strong {
+            color: #1a3a5c;
+        }
+
+        .empty-message {
+            color: #94a3b8;
+            font-style: italic;
+            padding: 16px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>📝 Task List</h1>
+
+        <!-- Form with one text input -->
+        <form id="taskForm">
+            <input type="text" id="taskInput" placeholder="Enter a new task..." required />
+            <button type="submit">➕ Add Task</button>
+        </form>
+
+        <ul class="item-list" id="taskList">
+            <li class="empty-message">📭 No tasks yet. Add one above!</li>
+        </ul>
+
+        <div class="info">
+            Total tasks: <strong id="taskCount">0</strong>
+        </div>
+    </div>
+
+    <script>
+        // ============================================
+        // Exercise 5: Form Handling
+        // ============================================
+
+        // Select elements
+        const form = document.getElementById('taskForm');
+        const taskInput = document.getElementById('taskInput');
+        const taskList = document.getElementById('taskList');
+        const taskCount = document.getElementById('taskCount');
+
+        // ============================================
+        // Form submit handler
+        // ============================================
+
+        form.addEventListener('submit', function(event) {
+            // 1. PREVENT DEFAULT (stop page refresh)
+            event.preventDefault();
+
+            // 2. READ input.value
+            const taskText = taskInput.value.trim();
+
+            // 3. Validate (don't add empty tasks)
+            if (taskText === '') {
+                alert('Please enter a task!');
+                return;
+            }
+
+            // 4. Create new list item
+            const li = document.createElement('li');
+            li.textContent = taskText;
+
+            // 5. Add delete button (bonus)
+            const deleteBtn = document.createElement('button');
+            deleteBtn.className = 'delete-btn';
+            deleteBtn.textContent = 'Delete';
+            deleteBtn.addEventListener('click', function() {
+                li.remove();
+                updateCount();
+            });
+
+            li.appendChild(deleteBtn);
+
+            // 6. APPEND to list
+            taskList.appendChild(li);
+
+            // 7. CLEAR the field
+            taskInput.value = '';
+
+            // 8. Focus back on input
+            taskInput.focus();
+
+            // 9. Update count
+            updateCount();
+
+            console.log(`✅ Added task: "${taskText}"`);
+        });
+
+        // ============================================
+        // Update task count
+        // ============================================
+
+        function updateCount() {
+            const items = taskList.querySelectorAll('li:not(.empty-message)');
+            const count = items.length;
+            taskCount.textContent = count;
+
+            // Remove empty message if there are items
+            const emptyMsg = taskList.querySelector('.empty-message');
+            if (count > 0 && emptyMsg) {
+                emptyMsg.remove();
+            } else if (count === 0 && !emptyMsg) {
+                const msg = document.createElement('li');
+                msg.className = 'empty-message';
+                msg.textContent = '📭 No tasks yet. Add one above!';
+                taskList.appendChild(msg);
+            }
+        }
+
+        // Initial count
+        updateCount();
+
+        // ============================================
+        // Bonus: Allow Enter key to submit (already works with form)
+        // ============================================
+
+        console.log('✅ Exercise 5 ready!');
+        console.log('📝 Enter a task and click "Add Task" or press Enter.');
+        console.log('🔄 The page will NOT refresh (preventDefault).');
+    </script>
+
+</body>
+</html>

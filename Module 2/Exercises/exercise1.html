@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Exercise 1 - DOM Manipulation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 30px;
+            background-color: #f8fafc;
+        }
+
+        .highlight {
+            color: #1a3a5c;
+            background-color: #f1c40f;
+            padding: 10px 20px;
+            border-radius: 8px;
+            display: inline-block;
+            transition: all 0.3s ease;
+        }
+
+        .btn {
+            padding: 10px 24px;
+            background-color: #1a3a5c;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 20px;
+        }
+
+        .btn:hover {
+            background-color: #2c5a7c;
+        }
+
+        .info {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #e2e8f0;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1 id="mainHeading">Hello, Ethiopia!</h1>
+
+    <button class="btn" id="changeBtn">Toggle Highlight</button>
+
+    <div class="info" id="status">
+        Current class: <span id="classStatus">none</span>
+    </div>
+
+    <script>
+        // ============================================
+        // Exercise 1: Select & Change <h1>
+        // ============================================
+
+        // 1. Select the <h1> element
+        const heading = document.getElementById('mainHeading');
+
+        // 2. Change its text with textContent
+        heading.textContent = '🇪🇹 Welcome to Addis Ababa!';
+
+        // 3. Get the button and status span
+        const button = document.getElementById('changeBtn');
+        const statusSpan = document.getElementById('classStatus');
+
+        // 4. Add click listener to toggle class
+        button.addEventListener('click', function() {
+            // Toggle the 'highlight' class on the heading
+            heading.classList.toggle('highlight');
+
+            // Update status display
+            if (heading.classList.contains('highlight')) {
+                statusSpan.textContent = 'highlight ✅';
+                statusSpan.style.color = '#1a3a5c';
+            } else {
+                statusSpan.textContent = 'none ❌';
+                statusSpan.style.color = '#999';
+            }
+        });
+
+        // Initial status display
+        console.log('✅ Exercise 1 ready!');
+        console.log('Heading text:', heading.textContent);
+        console.log('Initial class:', heading.className || 'none');
+    </script>
+
+</body>
+</html>

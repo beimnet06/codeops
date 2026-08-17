@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Exercise 4 - Event Delegation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 30px;
+            background-color: #f8fafc;
+        }
+
+        h1 {
+            color: #1a3a5c;
+        }
+
+        .container {
+            max-width: 500px;
+        }
+
+        .item-list {
+            list-style: none;
+            padding: 0;
+            margin: 20px 0;
+        }
+
+        .item-list li {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 16px;
+            margin-bottom: 8px;
+            background-color: white;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .item-list li:hover {
+            border-color: #1a3a5c;
+        }
+
+        .item-list li .item-text {
+            font-size: 16px;
+        }
+
+        .item-list li .item-text .emoji {
+            margin-right: 8px;
+        }
+
+        .delete-btn {
+            padding: 6px 14px;
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 13px;
+            transition: background-color 0.2s;
+        }
+
+        .delete-btn:hover {
+            background-color: #c0392b;
+        }
+
+        .delete-btn:active {
+            transform: scale(0.95);
+        }
+
+        .add-section {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .add-section input {
+            flex: 1;
+            padding: 10px 14px;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        .add-section input:focus {
+            outline: none;
+            border-color: #1a3a5c;
+        }
+
+        .btn {
+            padding: 10px 24px;
+            background-color: #1a3a5c;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .btn:hover {
+            background-color: #2c5a7c;
+        }
+
+        .info {
+            margin-top: 16px;
+            padding: 10px;
+            background-color: #e2e8f0;
+            border-radius: 6px;
+            font-size: 14px;
+            color: #475569;
+        }
+
+        .info strong {
+            color: #1a3a5c;
+        }
+
+        .empty-message {
+            color: #94a3b8;
+            font-style: italic;
+            padding: 20px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>🛒 Shopping List</h1>
+
+        <ul class="item-list" id="itemList">
+            <li>
+                <span class="item-text">🛍️ Buy Coffee</span>
+                <button class="delete-btn">Delete</button>
+            </li>
+            <li>
+                <span class="item-text">🥛 Get Milk</span>
+                <button class="delete-btn">Delete</button>
+            </li>
+            <li>
+                <span class="item-text">🍞 Purchase Bread</span>
+                <button class="delete-btn">Delete</button>
+            </li>
+        </ul>
+
+        <div class="add-section">
+            <input type="text" id="itemInput" placeholder="Add new item..." />
+            <button class="btn" id="addBtn">➕ Add</button>
+        </div>
+
+        <div class="info">
+            Total items: <strong id="itemCount">3</strong>
+        </div>
+    </div>
+
+    <script>
+        // ============================================
+        // Exercise 4: Event Delegation
+        // ============================================
+
+        // Select elements
+        const itemList = document.getElementById('itemList');
+        const itemInput = document.getElementById('itemInput');
+        const addBtn = document.getElementById('addBtn');
+        const itemCount = document.getElementById('itemCount');
+
+        // ============================================
+        // SINGLE DELEGATED LISTENER ON THE PARENT
+        // ============================================
+
+        // One listener on the <ul> handles ALL delete buttons
+        itemList.addEventListener('click', function(event) {
+            // Check if the clicked element is a delete button
+            if (event.target.classList.contains('delete-btn')) {
+                // Find the <li> parent
+                const listItem = event.target.closest('li');
+
+                if (listItem) {
+                    // Get the item text
+                    const itemText = listItem.querySelector('.item-text').textContent;
+                    console.log(`🗑️ Removing: ${itemText}`);
+
+                    // Remove the list item
+                    listItem.remove();
+
+                    // Update the count
+                    updateCount();
+
+                    // Optional: Show feedback
+                    console.log(`✅ Remaining items: ${itemList.children.length}`);
+                }
+            }
+        });
+
+        // ============================================
+        // Add new item
+        // ============================================
+
+        addBtn.addEventListener('click', function() {
+            const text = itemInput.value.trim();
+
+            if (text === '') {
+                alert('Please enter an item!');
+                return;
+            }
+
+            // Create new <li>
+            const li = document.createElement('li');
+
+            // Create item text span
+            const span = document.createElement('span');
+            span.className = 'item-text';
+            span.innerHTML = `📦 ${text}`;
+
+            // Create delete button
+            const deleteBtn = document.createElement('button');
+            deleteBtn.className = 'delete-btn';
+            deleteBtn.textContent = 'Delete';
+
+            // Assemble the list item
+            li.appendChild(span);
+            li.appendChild(deleteBtn);
+
+            // Add to the list
+            itemList.appendChild(li);
+
+            // Clear input
+            itemInput.value = '';
+            itemInput.focus();
+
+            // Update count
+            updateCount();
+
+            console.log(`✅ Added: ${text}`);
+        });
+
+        // Allow Enter key to add item
+        itemInput.addEventListener('keypress', function(event) {
+            if (event.key === 'Enter') {
+                addBtn.click();
+            }
+        });
+
+        // ============================================
+        // Update item count
+        // ============================================
+
+        function updateCount() {
+            const count = itemList.children.length;
+            itemCount.textContent = count;
+
+            // Show empty message if no items
+            if (count === 0) {
+                const emptyLi = document.createElement('li');
+                emptyLi.className = 'empty-message';
+                emptyLi.textContent = '🛒 Your shopping list is empty!';
+                emptyLi.id = 'emptyMessage';
+                itemList.appendChild(emptyLi);
+            } else {
+                // Remove empty message if it exists
+                const emptyMsg = document.getElementById('emptyMessage');
+                if (emptyMsg) {
+                    emptyMsg.remove();
+                }
+            }
+        }
+
+        // Initial count
+        updateCount();
+
+        // ============================================
+        // Logging for demonstration
+        // ============================================
+
+        console.log('✅ Exercise 4 ready!');
+        console.log('📌 Single event listener on <ul> handles ALL delete buttons.');
+        console.log(`📊 Initial items: ${itemList.children.length}`);
+        console.log('💡 Click "Delete" on any item to remove it.');
+    </script>
+
+</body>
+</html>
