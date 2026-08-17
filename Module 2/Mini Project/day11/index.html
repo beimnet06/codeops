@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Signup Form - Addis Market</title>
+    <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📝 Addis Market Signup</h1>
+            <p>Join our community and stay updated with the latest Ethiopian products.</p>
+        </header>
+
+        <!-- Signup Form -->
+        <form id="signupForm">
+            <div class="form-group">
+                <label for="nameInput">Full Name</label>
+                <input type="text" id="nameInput" placeholder="e.g., Beimnet Tariku" autofocus />
+                <div class="hint">At least 2 characters</div>
+            </div>
+
+            <div class="form-group">
+                <label for="phoneInput">Phone Number</label>
+                <input type="tel" id="phoneInput" placeholder="0912345678 or +251912345678" />
+                <div class="hint">Format: 09xxxxxxxx or +2519xxxxxxxx</div>
+            </div>
+
+            <button type="submit">Sign Up</button>
+        </form>
+
+        <!-- Error Area -->
+        <div id="errorArea"></div>
+
+        <!-- Signup Count -->
+        <div class="signup-count">
+            👥 Total signed up: <strong id="countDisplay">0</strong>
+        </div>
+
+        <!-- Signup List -->
+        <div class="signup-list">
+            <h3>📋 Recent Signups</h3>
+            <ul id="signupList">
+                <li class="empty-message">No signups yet. Be the first!</li>
+            </ul>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
