@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Country Facts Explorer</title>
+    <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🌍 Country Facts Explorer</h1>
+            <p>Search for any country and get key facts instantly.</p>
+        </header>
+
+        <!-- Search Form -->
+        <form id="searchForm">
+            <div class="search-row">
+                <input type="text" id="countryInput" placeholder="Enter a country name..." value="Ethiopia" />
+                <button type="submit">🔍 Search</button>
+            </div>
+        </form>
+
+        <!-- Results Area -->
+        <div id="results">
+            <!-- Loading, Error, or Data will be rendered here -->
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
